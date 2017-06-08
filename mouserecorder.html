@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="mouse-tracer.css">
+</head> 
+<body >
+
+<div class="screen" id="screen">
+                                        
+<div class="demo" id="demo"></div>
+</div>
+<script>
+document.getElementById("screen").addEventListener("mousemove", recordCoords);
+document.addEventListener("click", followCoords);
+
+var coords_x = [];
+var coords_y = [];
+var i = 0;
+
+
+
+function recordCoords(event){
+  var x = event.clientX;
+  var y = event.clientY;
+
+    coords_x.push(x);
+    coords_y.push(y);
+
+    console.log(coords_x);
+    console.log(coords_y);
+}
+
+function followCoords(event) {
+    document.removeEventListener("click", followCoords);
+    document.removeEventListener("mousemove", recordCoords);
+
+    var interval = setInterval(function(){
+
+    if(i == coords_x.length){
+      document.addEventListener("mousemove", recordCoords);
+      document.addEventListener("click", followCoords);
+      clearInterval(interval);
+      i = 0;
+      coords_x = [];
+      coords_y = [];
+      
+    }
+    else{
+      document.getElementById('demo').style.left = coords_x[i]+'px';
+      document.getElementById('demo').style.top = coords_y[i]+'px';
+      i++;
+    }
+  });
+
+}
+</script>
+
+</body>
+</html>
+
+
+
+
+
